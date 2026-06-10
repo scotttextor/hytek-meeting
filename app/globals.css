@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0d0d0d;
+  --card: #1a1a1a;
+  --card2: #222;
+  --accent: #FFCB05;
+  --text: #ffffff;
+  --text-dim: #888;
+  --danger: #ff4444;
+  --green: #00ff88;
+  --green-dim: #00cc66;
+}
+
+@theme {
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-danger: var(--danger);
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overscroll-behavior: none;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-8px); }
+  40%     { transform: translateX(8px); }
+  60%     { transform: translateX(-6px); }
+  80%     { transform: translateX(6px); }
+}
+
+.animate-slide-up { animation: slideUp 0.22s ease; }
+.animate-shake    { animation: shake 0.35s ease; }
