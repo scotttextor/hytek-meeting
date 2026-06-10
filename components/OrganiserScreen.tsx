@@ -7,10 +7,10 @@ import { matchesQuery } from '@/lib/search'
 interface Props {
   staff: StaffPublic[]
   onGo: (selectedIds: Set<string>) => void
-  onBack: () => void
+  onOwner: () => void
 }
 
-export default function OrganiserScreen({ staff, onGo, onBack }: Props) {
+export default function OrganiserScreen({ staff, onGo, onOwner }: Props) {
   const [query, setQuery] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
@@ -50,13 +50,16 @@ export default function OrganiserScreen({ staff, onGo, onBack }: Props) {
 
   return (
     <div className="flex flex-col min-h-dvh px-5">
-      <button onClick={onBack} className="flex items-center gap-1.5 pt-3 pb-1 text-sm"
-              style={{ background:'none', border:'none', color:'var(--text-dim)' }}>← Back</button>
-
-      <div className="mb-3">
-        <h2 className="text-2xl font-bold">Who&apos;s in this meeting?</h2>
-        <p className="text-sm mt-1" style={{ color:'var(--text-dim)' }}>Search and tap to select</p>
+      <div className="flex items-start justify-between pt-4">
+        <div>
+          <h2 className="text-2xl font-bold">Who&apos;s in the meeting?</h2>
+          <p className="text-sm mt-1" style={{ color:'var(--text-dim)' }}>Type a name or scroll, then tap</p>
+        </div>
+        <button onClick={onOwner} aria-label="Owner settings"
+                className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-lg mt-0.5"
+                style={{ background:'var(--card2)', border:'none', color:'var(--text-dim)' }}>⚙</button>
       </div>
+      <div className="mb-1" />
 
       <div className="relative mb-3 flex-shrink-0">
         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base pointer-events-none" style={{ color:'#555' }}>🔍</span>
@@ -86,14 +89,14 @@ export default function OrganiserScreen({ staff, onGo, onBack }: Props) {
       <div className="fixed bottom-0 left-0 right-0 px-5 pb-9 pt-4"
            style={{ background:'linear-gradient(to top, var(--bg) 65%, transparent)' }}>
         <button onClick={() => onGo(selectedIds)} disabled={selectedIds.size === 0}
-          className="w-full rounded-2xl py-5 text-xl font-black tracking-widest transition-all active:scale-[0.97]"
+          className="w-full rounded-2xl py-5 text-xl font-black tracking-wide transition-all active:scale-[0.97]"
           style={{ background:'var(--accent)', border:'none', color:'#000', opacity: selectedIds.size === 0 ? 0.25 : 1 }}>
-          GO
+          ▶ START MEETING
         </button>
         <p className="text-center text-sm mt-2" style={{ color:'var(--text-dim)' }}>
           {selectedIds.size === 0
-            ? 'Search and select attendees'
-            : `${selectedIds.size} person${selectedIds.size > 1 ? 's' : ''} selected`}
+            ? 'Tap the people in the meeting'
+            : `${selectedIds.size} ${selectedIds.size > 1 ? 'people' : 'person'} selected — ready to start`}
         </p>
       </div>
     </div>

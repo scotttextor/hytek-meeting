@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import type { Screen, Staff, StaffPublic, MeetingResult } from '@/lib/types'
-import HomeScreen      from '@/components/HomeScreen'
 import PinScreen       from '@/components/PinScreen'
 import OwnerStaffScreen from '@/components/OwnerStaffScreen'
 import OwnerLogScreen  from '@/components/OwnerLogScreen'
@@ -11,7 +10,7 @@ import MeterScreen     from '@/components/MeterScreen'
 import ResultScreen    from '@/components/ResultScreen'
 
 export default function Page() {
-  const [screen, setScreen] = useState<Screen>('home')
+  const [screen, setScreen] = useState<Screen>('organiser')
   const [pin, setPin] = useState('')
   const [ownerStaff, setOwnerStaff] = useState<Staff[]>([])
   const [publicStaff, setPublicStaff] = useState<StaffPublic[]>([])
@@ -69,11 +68,8 @@ export default function Page() {
 
   return (
     <>
-      {screen === 'home' && (
-        <HomeScreen onOwner={() => setScreen('pin')} onOrganiser={() => setScreen('organiser')} />
-      )}
       {screen === 'pin' && (
-        <PinScreen onSuccess={handlePinSuccess} onBack={() => setScreen('home')} />
+        <PinScreen onSuccess={handlePinSuccess} onBack={() => setScreen('organiser')} />
       )}
       {screen === 'owner-staff' && (
         <OwnerStaffScreen
@@ -81,14 +77,14 @@ export default function Page() {
           staff={ownerStaff}
           onRefresh={() => fetchOwnerStaff(pin)}
           onViewLog={() => setScreen('owner-log')}
-          onHome={() => setScreen('home')}
+          onHome={() => setScreen('organiser')}
         />
       )}
       {screen === 'owner-log' && (
         <OwnerLogScreen pin={pin} onBack={() => setScreen('owner-staff')} />
       )}
       {screen === 'organiser' && (
-        <OrganiserScreen staff={publicStaff} onGo={handleGo} onBack={() => setScreen('home')} />
+        <OrganiserScreen staff={publicStaff} onGo={handleGo} onOwner={() => setScreen('pin')} />
       )}
       {screen === 'meter' && (
         <MeterScreen selected={meetingSelected} ratePerSec={ratePerSec} onStop={handleStop} />
@@ -99,7 +95,7 @@ export default function Page() {
           duration_ms={result.duration_ms}
           attendees={result.attendees}
           onNewMeeting={() => setScreen('organiser')}
-          onHome={() => setScreen('home')}
+          onHome={() => setScreen('organiser')}
         />
       )}
     </>
