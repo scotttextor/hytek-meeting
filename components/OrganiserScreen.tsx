@@ -20,6 +20,9 @@ export default function OrganiserScreen({ staff, onGo, onOwner }: Props) {
       next.has(id) ? next.delete(id) : next.add(id)
       return next
     })
+    // Wipe the search after a tap so the box is empty and ready for the next name —
+    // no backspacing the old search out.
+    setQuery('')
   }
 
   const isSearching = query.trim().length > 0
@@ -68,6 +71,11 @@ export default function OrganiserScreen({ staff, onGo, onOwner }: Props) {
       <div className="relative mb-3 flex-shrink-0">
         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base pointer-events-none" style={{ color:'#555' }}>🔍</span>
         <input
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          enterKeyHint="search"
           className="w-full rounded-xl pl-10 pr-4 py-3.5 text-base outline-none"
           style={{ background:'var(--card)', border:'1.5px solid #2a2a2a', color:'var(--text)' }}
           placeholder="Type a name…"
